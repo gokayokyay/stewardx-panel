@@ -1,0 +1,19 @@
+.dropdown-__control {
+  background-color: transparent !important;
+  border: none !important;
+}
+.dropdown-__menu {
+  background-color: black !important;
+  border: 2px white solid;
+}
+.dropdown-__option {
+  background-color: transparent !important;
+  border-top: 2px white solid;
+  /* border-top: 2px white solid; */
+}
+.dropdown-__single-value {
+  color: white !important;
+}
+.dropdown-__placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

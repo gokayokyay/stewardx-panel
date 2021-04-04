@@ -1,0 +1,3 @@
+.loading > div {
+  transform: translateY(50%);
+}
