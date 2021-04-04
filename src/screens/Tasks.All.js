@@ -7,6 +7,7 @@ import { TaskStore, setTasks } from "../stores/TaskStore";
 
 export default function TasksAll() {
   const tasks = useStore(TaskStore);
+  console.log(tasks);
   useEffect(() => {
     getTasks().then(setTasks).catch(console.error);
   }, []);

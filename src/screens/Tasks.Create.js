@@ -1,5 +1,6 @@
 import { useStore } from "effector-react";
 import { useState } from "react";
+import { createTask } from "../api";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 import Label from "../components/Label";
@@ -48,6 +49,9 @@ export default function TasksCreate() {
     }
     return false;
   };
+  const onCreate = () => {
+    createTask(store);
+  };
   return (
     <div className="flex-1 p-4 pl-8 overflow-auto">
       <Label className="text-xl">
@@ -80,7 +84,7 @@ export default function TasksCreate() {
       )}
       <TasksCreateProperties />
       <div className="flex mt-8">
-        <TurquoiseButton disabled={!canCreate()} className={canCreate() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
+        <TurquoiseButton onClick={onCreate} disabled={!canCreate()} className={canCreate() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
           Create
         </TurquoiseButton>
       </div>
