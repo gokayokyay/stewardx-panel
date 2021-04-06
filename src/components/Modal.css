@@ -1,0 +1,68 @@
+.modal-in {
+  animation: fadeIn;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.modal-out {
+  animation: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.modal-content {
+  min-width: 340px;
+}
+
+.modal-content-in {
+  animation: fadeInBottom;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.modal-content-out {
+  animation: fadeOutTop;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+  from {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: initial;
+  }
+}
+
+@keyframes fadeOutTop {
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  from {
+    opacity: 1;
+    transform: initial;
+  }
+}

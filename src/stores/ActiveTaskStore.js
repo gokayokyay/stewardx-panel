@@ -28,7 +28,7 @@ function fetchActiveTasks() {
   } else {
     clearInterval(interval);
   }
-  // console.log(ActiveTaskStore.getState().retryCount);
+  console.log(ActiveTaskStore.getState().retryCount);
 }
 
 ActiveTaskStore.on(setActiveTasks, (state, tasks) => ({ ...state, tasks }));

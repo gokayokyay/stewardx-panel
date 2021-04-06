@@ -5,6 +5,7 @@ import TurquoiseButton from "./TurquoiseButton";
 import WideCard from "./WideCard";
 import { ReactComponent as Spinner } from '../assets/button-spinner.svg';
 import { Link } from "react-router-dom";
+import { setModalButtons, setModalText, setModalTitle, setModalVisible } from "../stores/ModalStore";
 
 export default function TaskCard({
   updated_at = new Date(),
@@ -16,6 +17,18 @@ export default function TaskCard({
   const isActive = activeTasksStore.tasks.some(({ id }) => id === props.id);
   const onExecuteClick = () => {
     executeTask(props.id).then(console.log).catch(console.error);
+  };
+  const onEditClick = () => {
+    setModalTitle('WIP');
+    setModalText('This feature is not complete yet!');
+    setModalButtons(
+      <div className="p-4 justify-center items-center flex">
+        <TurquoiseButton onClick={() => setModalVisible(false)}>
+          Okay
+        </TurquoiseButton>
+      </div>
+    );
+    setModalVisible(true);
   };
   return (
     <WideCard
@@ -30,11 +43,11 @@ export default function TaskCard({
           <TurquoiseButton onClick={onExecuteClick} active={isActive} disabled={isActive}>
             {isActive ? <Spinner className="animate-spin w-6 h-6" /> : 'Execute task'}
           </TurquoiseButton>
-          <Link to={`/tasks/edit/${props.id}`}>
-            <TurquoiseButton>
-              Edit task
-            </TurquoiseButton>
-          </Link>
+          {/* <Link to={`/tasks/edit/${props.id}`}> */}
+          <TurquoiseButton onClick={onEditClick}>
+            Edit task
+          </TurquoiseButton>
+          {/* </Link> */}
         </div>
       }
       {...props}

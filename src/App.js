@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LeftPanel from "./components/LeftPanel";
+import Modal from "./components/Modal";
 import Dashboard from "./screens/Dashboard";
 import Settings from "./screens/Settings";
 import TasksAll from "./screens/Tasks.All";
@@ -29,6 +30,7 @@ function App() {
             </Route>
           </Switch>
       </div>
+      <Modal />
     </BrowserRouter>
   );
 }
