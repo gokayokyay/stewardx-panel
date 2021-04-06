@@ -1,8 +1,7 @@
 import { useStore } from "effector-react"
-import { useEffect } from "react";
 import ActiveTaskCard from "../components/ActiveTaskCard";
 import Label from "../components/Label";
-import { ActiveTaskStore, setActiveTasks, setActiveTasksLoaded } from "../stores/ActiveTaskStore";
+import { ActiveTaskStore } from "../stores/ActiveTaskStore";
 
 export default function Dashboard() {
   const { tasks } = useStore(ActiveTaskStore);

@@ -4,6 +4,7 @@ import Dashboard from "./screens/Dashboard";
 import Settings from "./screens/Settings";
 import TasksAll from "./screens/Tasks.All";
 import TasksCreate from "./screens/Tasks.Create";
+import TasksEdit from "./screens/Tasks.Edit";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route path="/tasks/create">
               <TasksCreate />
+            </Route>
+            <Route path="/tasks/edit/:id">
+              <TasksEdit />
             </Route>
             <Route path="/">
               <Dashboard />

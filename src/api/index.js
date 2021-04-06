@@ -41,14 +41,18 @@ export const createTask = (params) => {
   return API.post('/tasks', params);
 };
 
+export const updateTask = ({ id, ...params }) => {
+  return API.post(`/tasks/${id}`, params);
+};
+
 export const executeTask = (id) => {
-  return API.post(`/tasks/execute`, {
+  return API.post(`/execute`, {
     task_id: id
   });
 };
 
 export const abortTask = (id) => {
-  return API.post('/tasks/abort', {
+  return API.post('/abort', {
     task_id: id
   });
 };

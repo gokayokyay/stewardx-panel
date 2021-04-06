@@ -5,7 +5,7 @@ import Input from "../components/Input";
 import Label from "../components/Label";
 import TurquoiseButton from "../components/TurquoiseButton";
 import { DockerImageTypes, TaskIcons, TaskTypes } from "../configs/tasks";
-import { CreateTaskStore, setTaskProp, setTaskProps } from "../stores/CreateTaskStore";
+import { CreateTaskStore, setTaskProps } from "../stores/CreateTaskStore";
 import { capitalize } from "../utils";
 
 const createDockerSerde = (type, content) => {
@@ -17,10 +17,16 @@ const createDockerSerde = (type, content) => {
   };
 };
 
-export default function TasksCreateProperties() {
-  const store = useStore(CreateTaskStore);
+export default function TasksCreateProperties({
+  store: StoreProp,
+  setTaskProps
+}) {
+  const store = useStore(StoreProp);
   const [imageType, setImageType] = useState();
   const DockerIcon = TaskIcons[TaskTypes.DockerTask];
+  const setTaskProp = key => value => {
+    setTaskProps({ [key]: value });
+  };
   switch (store.task_type) {
     case 'CmdTask':
       return (

@@ -4,6 +4,7 @@ import { ActiveTaskStore } from "../stores/ActiveTaskStore";
 import TurquoiseButton from "./TurquoiseButton";
 import WideCard from "./WideCard";
 import { ReactComponent as Spinner } from '../assets/button-spinner.svg';
+import { Link } from "react-router-dom";
 
 export default function TaskCard({
   updated_at = new Date(),
@@ -29,9 +30,11 @@ export default function TaskCard({
           <TurquoiseButton onClick={onExecuteClick} active={isActive} disabled={isActive}>
             {isActive ? <Spinner className="animate-spin w-6 h-6" /> : 'Execute task'}
           </TurquoiseButton>
-          <TurquoiseButton>
-            Edit task
-          </TurquoiseButton>
+          <Link to={`/tasks/edit/${props.id}`}>
+            <TurquoiseButton>
+              Edit task
+            </TurquoiseButton>
+          </Link>
         </div>
       }
       {...props}

@@ -7,14 +7,20 @@ import Label from "../components/Label";
 import TurquoiseButton from "../components/TurquoiseButton";
 import { FREQUENCY_OPTIONS } from "../configs/frequency";
 import { TaskIcons, TaskTypes } from "../configs/tasks";
-import { CreateTaskStore, setFrequency, setTaskName, setTaskType, setTaskProps } from "../stores/CreateTaskStore";
+import { CreateTaskStore, setFrequency, setTaskName, setTaskType } from "../stores/CreateTaskStore";
 import { checkCron } from "../utils";
 import TasksCreateProperties from "./Tasks.Create.Properties";
 
-export default function TasksCreate() {
+export default function TasksGenericAction({
+  store: PropStore,
+  onFrequencyChange,
+  onTaskNameChange,
+  onTaskTypeChange,
+  onActionClick
+}) {
   const [cronError, setCronError] = useState(false);
   const [frequencyType, setFrequencyType] = useState('HOOK');
-  const store = useStore(CreateTaskStore);
+  const store = useStore(PropStore);
   const frequencyOptions = Object.entries(FREQUENCY_OPTIONS).map(([key, value]) => {
     return {
       value: key,
@@ -23,7 +29,7 @@ export default function TasksCreate() {
   });
   const onFrequencyDropdownChange = ({ value }) => {
     if (value === 'HOOK') {
-      setFrequency('Hook');
+      onFrequencyChange('Hook');
       setCronError(false);
     }
     setFrequencyType(value);
@@ -34,13 +40,13 @@ export default function TasksCreate() {
   const onCronStringChange = (value) => {
     if (!checkCron(value)) {
       setCronError(false);
-      setFrequency(`Every(${value.trim()})`);
+      onFrequencyChange(`Every(${value.trim()})`);
     } else {
       setCronError(true);
-      setFrequency('');
+      onFrequencyChange('');
     }
   };
-  const canCreate = () => {
+  const checkErrors = () => {
     const cronIsOk = () => {
       return store.frequency.includes('Every') ? !checkCron(store.frequency?.split?.('(')?.[1]?.split?.(')')?.[0] || '') : true;
     };
@@ -49,9 +55,9 @@ export default function TasksCreate() {
     }
     return false;
   };
-  const onCreate = () => {
-    createTask(store);
-  };
+  // const onActionClick = () => {
+  //   createTask(store);
+  // };
   return (
     <div className="flex-1 p-4 pl-8 overflow-auto">
       <Label className="text-xl">
@@ -64,14 +70,14 @@ export default function TasksCreate() {
         {Object.keys(TaskTypes).map(key => {
           const Icon = TaskIcons[key];
           return (
-            <TurquoiseButton active={store.task_type === key} onClick={() => setTaskType(key)} className="m-2">
+            <TurquoiseButton active={store.task_type === key} onClick={() => onTaskTypeChange(key)} className="m-2">
               <Icon className="w-9 h-9 fill-current mr-4" />
               {TaskTypes[key]}
             </TurquoiseButton>
           );
         })}
       </div>
-      <Input defaultValue={store.task_name} label="Task name" placeholder="My new StewardX task" className="mt-4" onChange={setTaskName} />
+      <Input defaultValue={store.task_name} label="Task name" placeholder="My new StewardX task" className="mt-4" onChange={onTaskNameChange} />
       <Label>
         Frequency
       </Label>
@@ -82,9 +88,9 @@ export default function TasksCreate() {
           {cronError && <div className="text-red-700 text-sm">Please enter a valid cron string!</div>}
         </>
       )}
-      <TasksCreateProperties store={CreateTaskStore} setTaskProps={setTaskProps} />
+      <TasksCreateProperties />
       <div className="flex mt-8">
-        <TurquoiseButton onClick={onCreate} disabled={!canCreate()} className={canCreate() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
+        <TurquoiseButton onClick={onActionClick} disabled={!checkErrors()} className={checkErrors() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
           Create
         </TurquoiseButton>
       </div>

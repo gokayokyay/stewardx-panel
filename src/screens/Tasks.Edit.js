@@ -1,20 +1,30 @@
-import { useStore } from "effector-react";
-import { useState } from "react";
-import { createTask } from "../api";
+import { useStore } from "effector-react"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { updateTask } from "../api";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input";
 import Label from "../components/Label";
 import TurquoiseButton from "../components/TurquoiseButton";
 import { FREQUENCY_OPTIONS } from "../configs/frequency";
 import { TaskIcons, TaskTypes } from "../configs/tasks";
-import { CreateTaskStore, setFrequency, setTaskName, setTaskType, setTaskProps } from "../stores/CreateTaskStore";
+import { TaskStore } from "../stores/TaskStore";
+import { UpdateTaskStore, setTaskName, setFrequency, setTaskProps, setState } from "../stores/UpdateTaskStore";
 import { checkCron } from "../utils";
 import TasksCreateProperties from "./Tasks.Create.Properties";
 
-export default function TasksCreate() {
+export default function TasksEdit() {
+  const params = useParams();
   const [cronError, setCronError] = useState(false);
   const [frequencyType, setFrequencyType] = useState('HOOK');
-  const store = useStore(CreateTaskStore);
+  const tasksStore = useStore(TaskStore);
+  useEffect(() => {
+    const { id: task_id } = params;
+    const task = tasksStore.find(({ id }) => id === task_id);
+    setState(task);
+    setFrequencyType(task.frequency?.startsWith('Every') ? 'Cron' : 'Hook');
+  }, [params, tasksStore]);
+  const store = useStore(UpdateTaskStore);
   const frequencyOptions = Object.entries(FREQUENCY_OPTIONS).map(([key, value]) => {
     return {
       value: key,
@@ -40,7 +50,7 @@ export default function TasksCreate() {
       setFrequency('');
     }
   };
-  const canCreate = () => {
+  const checkError = () => {
     const cronIsOk = () => {
       return store.frequency.includes('Every') ? !checkCron(store.frequency?.split?.('(')?.[1]?.split?.(')')?.[0] || '') : true;
     };
@@ -49,22 +59,22 @@ export default function TasksCreate() {
     }
     return false;
   };
-  const onCreate = () => {
-    createTask(store);
+  const onEdit = () => {
+    updateTask(store);
   };
   return (
     <div className="flex-1 p-4 pl-8 overflow-auto">
       <Label className="text-xl">
-        Create a new task
+        Edit task
       </Label>
       <Label className="mt-12">
-        Select the task type
+        Task type
       </Label>
       <div className="flex mt-8 -ml-2 -mr-2">
         {Object.keys(TaskTypes).map(key => {
           const Icon = TaskIcons[key];
           return (
-            <TurquoiseButton active={store.task_type === key} onClick={() => setTaskType(key)} className="m-2">
+            <TurquoiseButton active={store.task_type === key} className="m-2 pointer-events-none">
               <Icon className="w-9 h-9 fill-current mr-4" />
               {TaskTypes[key]}
             </TurquoiseButton>
@@ -82,9 +92,9 @@ export default function TasksCreate() {
           {cronError && <div className="text-red-700 text-sm">Please enter a valid cron string!</div>}
         </>
       )}
-      <TasksCreateProperties store={CreateTaskStore} setTaskProps={setTaskProps} />
+      <TasksCreateProperties store={UpdateTaskStore} setTaskProps={setTaskProps} />
       <div className="flex mt-8">
-        <TurquoiseButton onClick={onCreate} disabled={!canCreate()} className={canCreate() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
+        <TurquoiseButton onClick={onEdit} disabled={!checkError()} className={checkError() ? 'opacity-100' : 'opacity-30 pointer-events-none'}>
           Create
         </TurquoiseButton>
       </div>
