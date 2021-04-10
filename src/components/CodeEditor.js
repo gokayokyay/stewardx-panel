@@ -7,7 +7,8 @@ import ReactDOM from 'react-dom';
 export default function CodeEditor({
   content = '',
   mountID = '',
-  onChange = f => f
+  onChange = f => f,
+  readonly = false
 }) {
   useEffect(() => {
     const elem = document.querySelector(`#${mountID}`);
@@ -18,7 +19,9 @@ export default function CodeEditor({
           theme: 'monokai',
           keyMap: 'sublime',
           mode: 'dockerfile',
+          readonly
         }}
+        
         onChanges={instance => onChange(instance.getValue())}
       />,
       elem
@@ -26,6 +29,6 @@ export default function CodeEditor({
     return () => {
       ReactDOM.unmountComponentAtNode(elem);
     };
-  }, [mountID, onChange]);
+  }, [mountID, onChange, readonly]);
   return React.Fragment;
 }

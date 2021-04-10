@@ -17,6 +17,9 @@ export default function LeftPanel() {
       <LeftPanelItemChild childOf={'tasks'} to="/tasks/create">
         - Create a new task
       </LeftPanelItemChild>
+      <LeftPanelItem routeKey={'reports'} to='/reports' className="text-xl">
+        Reports
+      </LeftPanelItem>
       <LeftPanelItem routeKey="settings" to="/settings" className="text-xl">
         Settings
       </LeftPanelItem>

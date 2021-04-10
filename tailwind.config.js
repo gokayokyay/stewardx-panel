@@ -6,7 +6,10 @@ module.exports = {
       colors: {
         'black-tint': '#0A0A0A',
         'turkuaz': '#71FFF6',
-        'orange-selected': '#FAD14F'
+        'orange-selected': '#FAD14F',
+        'failed': 'rgb(55, 0, 0)',
+        'blueish': '#0E141B',
+        'success-blueish': '#002c42'
       }
     },
     fontFamily: {

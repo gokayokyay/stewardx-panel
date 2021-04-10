@@ -56,3 +56,15 @@ export const abortTask = (id) => {
     task_id: id
   });
 };
+
+export const getTaskReports = (id) => {
+  return API.get(`/task/${id}/reports`);
+};
+
+export const getReports = (offset) => {
+  return API.get(`/reports${offset ? `?offset=${offset}` : ''}`);
+};
+
+export const getReport = (reportID) => {
+  return API.get(`/reports/${reportID}`);
+};

@@ -19,7 +19,7 @@ export default function WideCard({
 }) {
   const IconComponent = TaskIcons[task_type];
   return (
-    <div className={`card border-2 flex flex-col w-96 border-white ${className}`} style={{ backgroundColor: '#0E141B' }}>
+    <div className={`card border-2 flex flex-col w-96 border-white bg-blueish ${className}`}>
       <div className="card-header flex h-12 p-3 items-center justify-center">
         <IconComponent fill="white" />
         <div className="truncate text-xl flex-1 ml-2 text-white">
@@ -28,7 +28,7 @@ export default function WideCard({
       </div>
       <div className="flex-1 flex card-footer">
         <div className="card-footer-info p-3 flex flex-col">
-          {info.map(text => <Info text={text} />)}
+          {info.map(text => <Info key={text} text={text} />)}
         </div>
       </div>
       {ButtonComponent}
