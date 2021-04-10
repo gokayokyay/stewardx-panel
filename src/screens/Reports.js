@@ -1,5 +1,6 @@
 import { useStore } from "effector-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getReports, getTaskReports } from "../api";
 import ConditionalRenderer from "../components/ConditionalRenderer";
 import Input from "../components/Input";
@@ -88,11 +89,11 @@ export default function Reports() {
                   `Executed at: ${new Date(report.created_at).toLocaleString()}`,
                 ]}
                 ButtonComponent={
-                  <div className="p-2">
+                  <Link className="p-2" to={`/reports/${report.id}`}>
                     <TurquoiseButton>
                       View report
                     </TurquoiseButton>
-                  </div>
+                  </Link>
                 }
                 key={report.id}
                 />);
