@@ -12,7 +12,7 @@ import WideCard from "../components/WideCard";
 import { TaskIcons } from "../configs/tasks";
 import useFuse from "../hooks/useFuse";
 import { ReportStore, setActiveTaskForReports, setActiveTaskReports, setReports } from "../stores/ReportStore";
-import { TaskStore } from "../stores/TaskStore";
+import { refreshTasks, TaskStore } from "../stores/TaskStore";
 
 export default function Reports() {
   const [lastTenReports, setLastTenReports] = useState([]);
@@ -27,6 +27,9 @@ export default function Reports() {
     }
   });
   useEffect(() => {
+    if (tasks.length === 0) {
+      refreshTasks();
+    }
     getReports(100).then(reportsAll => {
       setReports(reportsAll);
       const temp = [];
@@ -43,7 +46,7 @@ export default function Reports() {
     if (active_task_id === '') {
       setSelectedTask({});
     } else {
-      const task = tasks.find(({ id }) => id === active_task_id);
+      const task = tasks?.find?.(({ id }) => id === active_task_id);
       setSelectedTask(task);
       getTaskReports(task.id).then(reports => {
         setActiveTaskReports(reports);
@@ -64,7 +67,7 @@ export default function Reports() {
       </div>
       <div className="flex mt-4 -m-4 flex-wrap overflow-x-hidden">
         <ConditionalRenderer condition={active_task_id == ''}>
-          {tasks.map(task => <TaskCardReports key={task.id} {...task} />)}
+          {tasks?.map?.(task => <TaskCardReports key={task.id} {...task} />)}
         </ConditionalRenderer>
         <ConditionalRenderer condition={active_task_id}>
           <div className="mt-4 flex-1 flex flex-col items-start">

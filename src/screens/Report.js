@@ -1,6 +1,7 @@
 import { useStore } from "effector-react";
 import { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { getReport } from "../api";
 import CodeEditor from "../components/CodeEditor";
 import Label from "../components/Label";
 import TurquoiseButton from "../components/TurquoiseButton";
@@ -19,8 +20,15 @@ export default function Report() {
       history.push('/reports');
     } else {
       const report = reports.find(({ id: reportID }) => reportID === id);
-      setSelectedReport(report);
-      setTaskName(tasks.find(({ id }) => report.task_id === id).task_name);
+      if (!report) {
+        getReport(id).then((report) => {
+          setSelectedReport(report);
+          setTaskName(tasks.find(({ id }) => report.task_id === id).task_name);
+        });
+      } else {
+        setSelectedReport(report);
+        setTaskName(tasks.find(({ id }) => report.task_id === id).task_name);
+      }
     }
   }, [id]);
   return (
