@@ -30,7 +30,7 @@ export default function Reports() {
     if (tasks.length === 0) {
       refreshTasks();
     }
-    getReports(100).then(reportsAll => {
+    getReports(0).then(reportsAll => {
       setReports(reportsAll);
       const temp = [];
       for (let i = 0; i < 10; i++) {
