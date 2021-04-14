@@ -52,11 +52,12 @@ export default function Report() {
           <Label className="mt-8">
             Output
           </Label>
-          <div id="code-editor" className="h-32 mt-8"></div>
+          <div id="code-editor" className="h-auto mt-8"></div>
           <CodeEditor
             content={selectedReport?.output?.join('\n')}
             readonly={true}
             mountID="code-editor"
+            mode="shell"
           />
         </>
       )}

@@ -8,7 +8,8 @@ export default function CodeEditor({
   content = '',
   mountID = '',
   onChange = f => f,
-  readonly = false
+  readonly = false,
+  mode = 'dockerfile'
 }) {
   useEffect(() => {
     const elem = document.querySelector(`#${mountID}`);
@@ -18,7 +19,7 @@ export default function CodeEditor({
         options={{
           theme: 'monokai',
           keyMap: 'sublime',
-          mode: 'dockerfile',
+          mode,
           readonly
         }}
         
@@ -29,6 +30,6 @@ export default function CodeEditor({
     return () => {
       ReactDOM.unmountComponentAtNode(elem);
     };
-  }, [mountID, onChange, readonly]);
+  }, [mountID, onChange, readonly, mode]);
   return React.Fragment;
 }
