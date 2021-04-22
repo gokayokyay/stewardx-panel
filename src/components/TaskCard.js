@@ -18,18 +18,6 @@ export default function TaskCard({
   const onExecuteClick = () => {
     executeTask(props.id).then(console.log).catch(console.error);
   };
-  const onEditClick = () => {
-    setModalTitle('WIP');
-    setModalText('This feature is not complete yet!');
-    setModalButtons(
-      <div className="p-4 justify-center items-center flex">
-        <TurquoiseButton onClick={() => setModalVisible(false)}>
-          Okay
-        </TurquoiseButton>
-      </div>
-    );
-    setModalVisible(true);
-  };
   return (
     <WideCard
       info={[
@@ -43,11 +31,11 @@ export default function TaskCard({
           <TurquoiseButton onClick={onExecuteClick} active={isActive} disabled={isActive}>
             {isActive ? <Spinner className="animate-spin w-6 h-6" /> : 'Execute task'}
           </TurquoiseButton>
-          {/* <Link to={`/tasks/edit/${props.id}`}> */}
-          <TurquoiseButton onClick={onEditClick}>
-            Edit task
-          </TurquoiseButton>
-          {/* </Link> */}
+          <Link to={`/tasks/edit/${props.id}`}>
+            <TurquoiseButton>
+              Edit task
+            </TurquoiseButton>
+          </Link>
         </div>
       }
       {...props}
